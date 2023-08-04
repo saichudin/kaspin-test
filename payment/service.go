@@ -92,3 +92,21 @@ func InquiryService(form *InquiryForm) (InquiryResponse, string) {
 
 	return data, structData.ResultMsg
 }
+
+func PaymentService(form *InquiryForm) {
+	// prepare payload data
+	timeNowStr := helper.GetTimeStamp()
+	refNo := form.ReferenceNo
+	amount := form.Amount
+	tokenString := timeNowStr + IMid + refNo + amount + ApiKey
+	token := GenerateTokenString(tokenString)
+
+	url := "https://dev.nicepay.co.id/nicepay/direct/v2/payment?"
+	url += "timeStamp="+timeNowStr
+	url += "&tXid="+form.TransactionId
+	url += "&cardNo=1234567890123450&cardExpYymm=2501&cardCvv=123&cardHolderNm=Daenerys"
+	url += "&merchantToken="+token
+	url += "&callBackUrl=https://merchant.com/callBackUrl"
+
+	helper.Fetch("GET", url, "")
+}

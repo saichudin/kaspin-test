@@ -2,11 +2,12 @@ package helper
 
 import (
 	"encoding/json"
-	"time"
 	"log"
 	"net/http"
 	"strings"
-    "github.com/itchyny/timefmt-go"
+	"time"
+
+	"github.com/itchyny/timefmt-go"
 )
 
 func Fetch(method string, url string, body string) (interface{}, error) {
@@ -14,12 +15,12 @@ func Fetch(method string, url string, body string) (interface{}, error) {
 	var client = &http.Client{}
 	var data interface{}
 	log.Println(body)
-	// url := "https://dev.nicepay.co.id//nicepay/direct/v2/registration"
+
 	request, err := http.NewRequest(method, url, strings.NewReader(body))
 	if err != nil {
 		return nil, err
 	}
-
+	log.Println(request, err)
 	response, err := client.Do(request)
 	if err != nil {
 		return nil, err
@@ -34,11 +35,6 @@ func Fetch(method string, url string, body string) (interface{}, error) {
 	return data, nil
 }
 
-// func GetStrTimeStamp() string {
-// 	timeNow := time.Now().Unix()
-// 	return strconv.FormatInt(timeNow, 10)
-// }
-
 func GetTimeStamp() string {
 	str := timefmt.Format(time.Now(), "%Y%m%d%H%M%S")
 	return str
@@ -47,7 +43,7 @@ func GetTimeStamp() string {
 func TranslateInquiryStatusCc(statusCode string) string {
 	switch status := statusCode; status {
 	case "0":
-		return "Success"
+		return "Success / Paid"
 	case "1":
 		return "Failed"
 	case "2":

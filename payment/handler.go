@@ -2,6 +2,7 @@ package payment
 
 import (
 	"net/http"
+
 	"github.com/labstack/echo/v4"
 )
 
@@ -36,6 +37,13 @@ func Inquiry(c echo.Context) error {
 }
 
 func Payment(c echo.Context) error {
+	form := new(InquiryForm)
+	if err := c.Bind(form); err != nil {
+		return c.String(http.StatusBadRequest, "bad request")
+	}
+
+	PaymentService(form)
+
 	resp := DefaultResponse{
 		Message: "Payment Success",
 		Data:    "",
