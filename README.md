@@ -11,3 +11,8 @@ run app:
 ```
 go run main.go
 ```
+
+api doc :
+```
+https://documenter.getpostman.com/view/12200000/2s9XxwxuJu
+```
